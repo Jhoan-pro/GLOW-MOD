@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">
+<title>Admin Login</title>
+</head>
+<body class="panel-bg">
+
+<div class="panel-container">
+<h2>Login Administrador</h2>
+<input type="text" id="user" placeholder="Usuario">
+<input type="password" id="pass" placeholder="Contraseña">
+<button onclick="login()">Ingresar</button>
+<a href="index.html">Volver</a>
+</div>
+
+<script>
+function login(){
+if(user.value==="admin" && pass.value==="1234"){
+window.location.href="admin-panel.html";
+}else{
+alert("Credenciales incorrectas");
+}
+}
+</script>
+
+</body>
+</html>

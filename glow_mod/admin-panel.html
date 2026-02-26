@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">
+<title>Panel Administrador</title>
+</head>
+<body class="panel-bg">
+
+<div class="panel-container">
+<h2>Panel Administrador</h2>
+
+<input type="text" id="pName" placeholder="Nombre producto">
+<input type="number" id="pPrice" placeholder="Precio">
+<input type="text" id="pImage" placeholder="URL Imagen">
+<button onclick="addProduct()">Agregar Producto</button>
+
+<h3>Productos existentes</h3>
+<div id="productList"></div>
+
+<a href="index.html">Volver a tienda</a>
+</div>
+
+<script>
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+function addProduct(){
+const name = pName.value;
+const price = pPrice.value;
+const image = pImage.value;
+
+products.push({name, price, image});
+localStorage.setItem("products", JSON.stringify(products));
+renderProducts();
+}
+
+function deleteProduct(index){
+products.splice(index,1);
+localStorage.setItem("products", JSON.stringify(products));
+renderProducts();
+}
+
+function renderProducts(){
+productList.innerHTML="";
+products.forEach((p,index)=>{
+productList.innerHTML+=`
+<div class="admin-product">
+<img src="${p.image}" width="50">
+${p.name} - $${p.price}
+<button onclick="deleteProduct(${index})">Eliminar</button>
+</div>
+`;
+});
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>

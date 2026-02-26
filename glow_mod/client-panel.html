@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">
+<title>Panel Cliente</title>
+</head>
+<body class="panel-bg">
+
+<div class="panel-container">
+<h2>Panel Cliente</h2>
+
+<h3>Historial de Compras</h3>
+<div id="history"></div>
+
+<a href="index.html">Volver a tienda</a>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function renderHistory(){
+history.innerHTML="";
+if(cart.length===0){
+history.innerHTML="No hay compras registradas.";
+return;
+}
+
+cart.forEach(item=>{
+history.innerHTML+=`
+<div class="admin-product">
+<img src="${item.image}" width="50">
+${item.name} x${item.qty} - $${item.price}
+</div>
+`;
+});
+}
+
+renderHistory();
+</script>
+
+</body>
+</html>

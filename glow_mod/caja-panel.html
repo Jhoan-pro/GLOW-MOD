@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">
+<title>Panel Caja</title>
+</head>
+<body class="panel-bg">
+
+<div class="panel-container">
+<h2>Panel de Caja</h2>
+
+<div id="cajaList"></div>
+
+<h3 id="totalCaja"></h3>
+
+<button onclick="procesarPago()">Procesar Pago</button>
+
+<a href="index.html">Volver a tienda</a>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function renderCaja(){
+let total=0;
+cajaList.innerHTML="";
+
+cart.forEach(item=>{
+total+=item.price*item.qty;
+cajaList.innerHTML+=`
+<div class="admin-product">
+<img src="${item.image}" width="50">
+${item.name} x${item.qty} - $${item.price}
+</div>
+`;
+});
+
+totalCaja.innerText="Total: $"+total.toFixed(2);
+}
+
+function procesarPago(){
+alert("Pago procesado correctamente");
+localStorage.removeItem("cart");
+renderCaja();
+}
+
+renderCaja();
+</script>
+
+</body>
+</html>

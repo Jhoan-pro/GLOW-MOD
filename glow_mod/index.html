@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOW_MOD</title>
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="logo">GLOW_MOD</div>
+
+    <nav class="nav-links">
+        <a href="index.html">Inicio| </a>
+        <a href="#">Tienda|</a>
+        <a href="admin-login.html">Administrador|</a>
+        <a href="client-panel.html">Cliente|</a>
+        <a href="caja-panel.html">Caja|</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>Nueva Colección 2026</h1>
+        <p>Descubre el estilo que te hace brillar</p>
+        <button>Comprar Ahora</button>
+    </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="products">
+    <h2>Productos Destacados</h2>
+    <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- BOTÓN CARRITO -->
+<div class="cart-toggle" onclick="toggleCart()">🛒</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+<!-- CARRITO -->
+<div class="side-cart" id="sideCart">
+    <div class="cart-header">
+        <h3>Tu Carrito</h3>
+        <span onclick="toggleCart()">✖</span>
+    </div>
+
+    <div class="cart-content" id="cartItems"></div>
+
+    <div class="cart-footer">
+        <h3 id="cartTotal">Total: $0</h3>
+        <button>Comprar</button>
+    </div>
+</div>
+
+<footer>
+    © 2026 GLOW_MOD
+</footer>
+
+<script>
+/* ===========================
+   PRODUCTOS BASE
+=========================== */
+let defaultProducts = [
+    {
+        name: "Sudadera Glow",
+        price: 49.99,
+        image: "https://images.unsplash.com/photo-1520975922071-a1f3a2f1b6f6"
+    },
+    {
+        name: "Chaqueta Urban",
+        price: 79.99,
+        image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246"
+    },
+    {
+        name: "Camiseta Classic",
+        price: 29.99,
+        image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b"
+    },
+    {
+        name: "Pantalón Street",
+        price: 59.99,
+        image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d"
+    }
+];
+
+/* Cargar productos del admin si existen */
+let products = JSON.parse(localStorage.getItem("products")) || defaultProducts;
+
+/* ===========================
+   MOSTRAR PRODUCTOS
+=========================== */
+function renderProducts() {
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = "";
+
+    products.forEach(product => {
+        grid.innerHTML += `
+            <div class="card">
+                <img src="${product.image}">
+                <h3>${product.name}</h3>
+                <p>$${product.price}</p>
+                <button onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">
+                    Agregar al carrito
+                </button>
+            </div>
+        `;
+    });
+}
+
+renderProducts();
+
+/* ===========================
+   CARRITO
+=========================== */
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function toggleCart() {
+    document.getElementById("sideCart").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
+}
+
+function addToCart(name, price, image) {
+
+    const existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push({ name, price, image, qty: 1 });
+    }
+
+    saveCart();
+    renderCart();
+    toggleCart();
+}
+
+function renderCart() {
+
+    const container = document.getElementById("cartItems");
+    const totalEl = document.getElementById("cartTotal");
+
+    container.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        total += item.price * item.qty;
+
+        container.innerHTML += `
+            <div class="cart-item">
+                <img src="${item.image}">
+                <div>
+                    <h4>${item.name}</h4>
+                    <p>$${item.price}</p>
+
+                    <div class="qty-control">
+                        <button onclick="changeQty(${index}, -1)">-</button>
+                        <span>${item.qty}</span>
+                        <button onclick="changeQty(${index}, 1)">+</button>
+                    </div>
+
+                    <div class="remove-btn" onclick="removeItem(${index})">
+                        Eliminar
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    totalEl.innerText = "Total: $" + total.toFixed(2);
+}
+
+function changeQty(index, amount) {
+    cart[index].qty += amount;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    saveCart();
+    renderCart();
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    saveCart();
+    renderCart();
+}
+
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+renderCart();
+</script>
+
+</body>
+</html>
