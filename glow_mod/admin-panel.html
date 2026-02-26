@@ -7,54 +7,73 @@
 </head>
 <body class="panel-bg">
 
-<div class="panel-container">
-<h2>Panel Administrador</h2>
+<div class="admin-wrapper">
 
-<input type="text" id="pName" placeholder="Nombre producto">
-<input type="number" id="pPrice" placeholder="Precio">
-<input type="text" id="pImage" placeholder="URL Imagen">
-<button onclick="addProduct()">Agregar Producto</button>
+<h2 class="admin-title">Panel Administrador</h2>
 
-<h3>Productos existentes</h3>
-<div id="productList"></div>
+<!-- STATS -->
+<div class="admin-stats">
+  <div class="stat-card">
+    <h3>Total Productos</h3>
+    <p>24</p>
+  </div>
 
-<a href="index.html">Volver a tienda</a>
+  <div class="stat-card">
+    <h3>Ventas Hoy</h3>
+    <p>$1,240</p>
+  </div>
+
+  <div class="stat-card">
+    <h3>Clientes</h3>
+    <p>132</p>
+  </div>
 </div>
 
-<script>
-let products = JSON.parse(localStorage.getItem("products")) || [];
+<!-- TABLE -->
+<div class="admin-table-wrapper">
 
-function addProduct(){
-const name = pName.value;
-const price = pPrice.value;
-const image = pImage.value;
+  <div class="admin-top-bar">
+    <div class="admin-search">
+      <input type="text" placeholder="Buscar producto...">
+      <button>🔍</button>
+    </div>
 
-products.push({name, price, image});
-localStorage.setItem("products", JSON.stringify(products));
-renderProducts();
-}
+    <button class="add-product-btn">+ Nuevo Producto</button>
+  </div>
 
-function deleteProduct(index){
-products.splice(index,1);
-localStorage.setItem("products", JSON.stringify(products));
-renderProducts();
-}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
 
-function renderProducts(){
-productList.innerHTML="";
-products.forEach((p,index)=>{
-productList.innerHTML+=`
-<div class="admin-product">
-<img src="${p.image}" width="50">
-${p.name} - $${p.price}
-<button onclick="deleteProduct(${index})">Eliminar</button>
+    <tbody>
+      <tr>
+        <td>
+          <img class="product-img-small" 
+          src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300&q=80">
+        </td>
+        <td>Sudadera Glow</td>
+        <td>$49.99</td>
+        <td>15</td>
+        <td>
+          <div class="admin-actions">
+            <button class="edit-btn">Editar</button>
+            <button class="delete-btn">Eliminar</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
-`;
-});
-}
 
-renderProducts();
-</script>
+</div>
 
 </body>
 </html>

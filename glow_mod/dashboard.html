@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - GLOW_MOD</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">GLOW_MOD</div>
+
+  <div class="nav-links">
+    <a href="#">Inicio</a>
+    <div class="user-icon" onclick="toggleUserMenu()">👤</div>
+  </div>
+</header>
+
+<div class="user-menu" id="userMenu">
+  <p><strong>Email:</strong> <span id="userEmailText"></span></p>
+  <p><strong>Rol:</strong> <span id="userRoleText"></span></p>
+  <button class="secondary-btn" onclick="logout()">Cerrar sesión</button>
+</div>
+
+<!-- LAYOUT -->
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <h3>Panel</h3>
+
+    <button onclick="showView('clienteView')" class="menu-btn">
+      🛍 Cliente
+    </button>
+
+    <button onclick="showView('adminView')" class="menu-btn admin-only">
+      🛠 Administrador
+    </button>
+
+    <button onclick="showView('cajaView')" class="menu-btn admin-only">
+      💳 Caja
+    </button>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="dashboard-content">
+
+    <!-- CLIENTE -->
+    <div id="clienteView" class="view">
+      <h2>Panel Cliente</h2>
+      <p>Ver productos y comprar.</p>
+    </div>
+
+    <!-- ADMIN -->
+    <div id="adminView" class="view">
+      <h2>Panel Administrador</h2>
+      <p>Gestionar productos.</p>
+    </div>
+
+    <!-- CAJA -->
+    <div id="cajaView" class="view">
+      <h2>Panel Caja</h2>
+      <p>Resumen de ventas.</p>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+
+/* ======================
+   CONTROL SESIÓN
+====================== */
+const userEmail = localStorage.getItem("userEmail");
+const userRole = localStorage.getItem("userRole");
+
+if(!userEmail){
+  window.location.href="login.html";
+}
+
+document.getElementById("userEmailText").innerText=userEmail;
+document.getElementById("userRoleText").innerText=userRole;
+
+/* ======================
+   CONTROL VISTAS
+====================== */
+function showView(viewId){
+
+  document.querySelectorAll(".view").forEach(v=>{
+    v.style.display="none";
+  });
+
+  document.getElementById(viewId).style.display="block";
+}
+
+/* ======================
+   CONTROL ROL
+====================== */
+if(userRole!=="admin"){
+  document.querySelectorAll(".admin-only").forEach(btn=>{
+    btn.style.display="none";
+  });
+  showView("clienteView");
+}else{
+  showView("adminView");
+}
+
+/* ======================
+   USER MENU
+====================== */
+function toggleUserMenu(){
+  document.getElementById("userMenu").classList.toggle("active");
+}
+
+function logout(){
+  localStorage.clear();
+  window.location.href="login.html";
+}
+
+</script>
+
+</body>
+</html>
