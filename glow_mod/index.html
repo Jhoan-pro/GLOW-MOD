@@ -20,15 +20,22 @@
   
   <div class="nav-links">
     <a href="index.html">Inicio</a>
-    <div class="user-icon" id="userBtn">👤</div>
+    <div class="user-dropdown">
+      <div class="user-icon">👤</div>
+    
+      <div class="dropdown-menu">
+        <a href="#">Administrar cuenta</a>
+        <a href="#">Tus pedidos</a>
+        <a href="#">Reseñas</a>
+        <a href="#">Historial</a>
+        <a href="#">Ajustes</a>
+        <a href="#" onclick="logout(); return false;">Cerrar sesión</a>
+      </div>
+    </div>
   </div>
 </header>
 
-<!-- USER MENU -->
-<div class="user-menu" id="userMenu">
-  <p><strong>Usuario:</strong> Cliente</p>
-  <button class="secondary-btn" onclick="logout()">Cerrar sesión</button>
-</div>
+
 
 <!-- HERO -->
 <section class="hero">
@@ -104,7 +111,9 @@ const products = [
     image:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=600&q=80"
   }
 ];
-
+if(localStorage.getItem("isLogged") !== "true"){
+  window.location.replace("login.html");
+}
 /* ===============================
    RENDER PRODUCTOS
 ================================= */
@@ -215,7 +224,15 @@ userBtn.addEventListener("click",()=>{
 });
 
 function logout(){
-  alert("Sesión cerrada (mockup)");
+
+  // Eliminar sesión
+  localStorage.removeItem("isLogged");
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("cart"); // opcional
+
+  // Redirigir
+  window.location.replace("login.html");
 }
 
 /* INIT */

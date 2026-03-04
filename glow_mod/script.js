@@ -78,3 +78,6 @@ function saveCart() {
 }
 
 renderCart();
+if(localStorage.getItem("isLogged") !== "true"){
+    window.location.href="login.html";
+  }
