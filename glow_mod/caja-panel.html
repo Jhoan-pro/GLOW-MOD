@@ -1,37 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
-<link rel="stylesheet" href="styles.css">
-<title>Panel Caja</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Caja - GLOW_MOD</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
-<body class="panel-bg">
 
-<div class="caja-wrapper">
+<body>
 
-<h2 class="admin-title">Panel Caja</h2>
+<div class="caja-panel">
 
-<div class="caja-card">
-  <div class="caja-item">
-    <span>Sudadera Glow x2</span>
-    <span>$99.98</span>
-  </div>
+<h2>Resumen de compra</h2>
 
-  <div class="caja-item">
-    <span>Camiseta Classic x1</span>
-    <span>$29.99</span>
-  </div>
+<div id="checkoutItems"></div>
 
-  <div class="caja-total">
-    Total: $129.97
-  </div>
+<div class="caja-total">
 
-  <button class="primary-btn" style="margin-top:15px;">
-    Procesar Pago
-  </button>
+Total: <span id="checkoutTotal">$0</span>
+
+</div>
+
+<div class="checkout-actions">
+
+<button class="cancel-btn" onclick="cancelPurchase()">
+
+Cancelar compra
+
+</button>
+
+<button class="primary-btn" onclick="showPayment()">
+
+Procesar pago
+
+</button>
+
 </div>
 
 </div>
+
+
+<!-- METODO DE PAGO -->
+
+<div class="payment-modal" id="paymentModal">
+
+<div class="payment-box">
+
+<h3>Selecciona método de pago</h3>
+
+<button onclick="pay('Tarjeta')">💳 Tarjeta</button>
+
+<button onclick="pay('PayPal')">🅿️ PayPal</button>
+
+<button onclick="pay('Efectivo')">💵 Contra entrega</button>
+
+<button class="cancel-btn" onclick="closePayment()">
+
+Cancelar
+
+</button>
+
+</div>
+
+</div>
+
+<script src="checkout.js"></script>
 
 </body>
+
 </html>

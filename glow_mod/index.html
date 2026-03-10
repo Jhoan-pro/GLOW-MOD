@@ -1,245 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GLOW_MOD</title>
+
 <link rel="stylesheet" href="styles.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
 <!-- NAVBAR -->
 <header class="navbar">
-  <div class="logo">GLOW_MOD</div>
 
-  <!--Aqui realizar una tabla de lineamiento de opciones-->
-  <!--Tambien al lado hacer la lupa de busqueda-->
-  <!--realizar el de ayuda, sobre preguntas frecuentes-->
-  <!--Arreglar las cantidades de unidad a cantidad-->
-  
-  <div class="nav-links">
-    <a href="index.html">Inicio</a>
-    <div class="user-dropdown">
-      <div class="user-icon">👤</div>
-    
-      <div class="dropdown-menu">
-        <a href="#">Administrar cuenta</a>
-        <a href="#">Tus pedidos</a>
-        <a href="#">Reseñas</a>
-        <a href="#">Historial</a>
-        <a href="#">Ajustes</a>
-        <a href="#" onclick="logout(); return false;">Cerrar sesión</a>
-      </div>
-    </div>
-  </div>
+<div class="logo">GLOW_MOD</div>
+
+<div class="nav-links">
+
+<a href="index.html">Inicio</a>
+
+<div class="user-dropdown">
+
+<div class="user-icon">👤</div>
+
+<div class="dropdown-menu">
+<a href="#">Administrar cuenta</a>
+<a href="#">Tus pedidos</a>
+<a href="#">Reseñas</a>
+<a href="#">Historial</a>
+<a href="#">Ajustes</a>
+<a href="#" onclick="logout()">Cerrar sesión</a>
+</div>
+
+</div>
+
+</div>
+
 </header>
-
-
 
 <!-- HERO -->
 <section class="hero">
-  <div>
-    <h1>Nueva Colección 2026</h1>
-    <p>Estilo moderno y minimalista</p>
-    <button class="primary-btn">Explorar</button>
-  </div>
+
+<div>
+
+<h1>Nueva Colección 2026</h1>
+
+<p>Estilo moderno y minimalista</p>
+
+<button class="primary-btn">Explorar</button>
+
+</div>
+
 </section>
 
 <!-- PRODUCTOS -->
 <section class="products">
-  <div class="product-grid" id="productGrid"></div>
+
+<div class="product-grid" id="productGrid"></div>
+
 </section>
 
-<!-- BOTÓN CARRITO -->
+<!-- BOTON CARRITO -->
+
 <div class="cart-toggle" onclick="toggleCart()">🛒</div>
 
 <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
 <!-- CARRITO -->
+
 <div class="side-cart" id="sideCart">
 
-  <div class="cart-header">
-    <h3>Tu Carrito</h3>
-    <span onclick="toggleCart()">✖</span>
-  </div>
+<div class="cart-header">
 
-  <div class="cart-content" id="cartItems"></div>
+<h3>Tu Carrito</h3>
 
-  <div class="cart-footer">
-    <h3 id="cartTotal">Total: $0</h3>
-    <button class="primary-btn">Comprar</button>
-  </div>
+<span onclick="toggleCart()">✖</span>
 
 </div>
 
-<script>
+<div class="cart-content" id="cartItems"></div>
 
-/* ===============================
-   PRODUCTOS BASE
-================================= */
-const products = [
-  {
-    name:"Sudadera Glow",
-    price:49.99,
-   image:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name:"Chaqueta Urban",
-    price:79.99,
-    image:"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80"
-    
-  },
-  {
-    name:"Camiseta Classic",
-    price:29.99,
-    image:"https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name:"Pantalón Street",
-    price:59.99,
-    image:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name: "Hoodie Night",
-    price: 69.99,
-    image: "https://images.unsplash.com/photo-1617749287908-5ff4d3c2f69c?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name:"Oversize Tee",
-    price:34.99,
-    image:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=600&q=80"
-  }
-];
-if(localStorage.getItem("isLogged") !== "true"){
-  window.location.replace("login.html");
-}
-/* ===============================
-   RENDER PRODUCTOS
-================================= */
-function renderProducts(){
-  const grid = document.getElementById("productGrid");
-  grid.innerHTML="";
+<div class="cart-footer">
 
-  products.forEach((product,index)=>{
-    grid.innerHTML+=`
-      <div class="card">
-        <img src="${product.image}" onerror="this.src='https://via.placeholder.com/300x300?text=Imagen'">
-        <h3>${product.name}</h3>
-        <p>$${product.price}</p>
-        <button class="add-btn" onclick="addToCart(${index})">
-          Agregar al carrito
-        </button>
-      </div>
-    `;
-  });
-}
+<div class="cart-summary">
 
-/* ===============================
-   CARRITO
-================================= */
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+<p>Subtotal: <span id="cartSubtotal">$0</span></p>
 
-function addToCart(index){
+<p>Total: <span id="cartTotal">$0</span></p>
 
-  const product = products[index];
+</div>
 
-  const existing = cart.find(item=>item.name===product.name);
+<div class="cart-buttons">
 
-  if(existing){
-    existing.qty++;
-  }else{
-    cart.push({...product, qty:1});
-  }
+<button class="cancel-btn" onclick="clearCart()">Cancelar</button>
 
-  saveCart();
-  renderCart();
-}
+<button class="primary-btn" onclick="goToCheckout()">Comprar</button>
 
-function renderCart(){
+</div>
 
-  const container = document.getElementById("cartItems");
-  const totalEl = document.getElementById("cartTotal");
+</div>
 
-  container.innerHTML="";
-  let total=0;
+</div>
 
-  cart.forEach((item,i)=>{
+<!-- SCRIPT -->
 
-    total+=item.price*item.qty;
-
-    container.innerHTML+=`
-      <div class="cart-item">
-        <img src="${item.image}">
-        <div>
-          <h4>${item.name}</h4>
-          <p>$${item.price}</p>
-          <div class="qty-control">
-            <button onclick="changeQty(${i},-1)">-</button>
-            <span>${item.qty}</span>
-            <button onclick="changeQty(${i},1)">+</button>
-          </div>
-          <div class="remove-btn" onclick="removeItem(${i})">Eliminar</div>
-        </div>
-      </div>
-    `;
-  });
-
-  totalEl.innerText="Total: $"+total.toFixed(2);
-
-}
-
-function changeQty(index,amount){
-  cart[index].qty+=amount;
-  if(cart[index].qty<=0){
-    cart.splice(index,1);
-  }
-  saveCart();
-  renderCart();
-}
-
-function removeItem(index){
-  cart.splice(index,1);
-  saveCart();
-  renderCart();
-}
-
-function saveCart(){
-  localStorage.setItem("cart",JSON.stringify(cart));
-}
-
-function toggleCart(){
-  document.getElementById("sideCart").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
-}
-
-/* ===============================
-   USER MENU
-================================= */
-const userBtn=document.getElementById("userBtn");
-const userMenu=document.getElementById("userMenu");
-
-userBtn.addEventListener("click",()=>{
-  userMenu.classList.toggle("active");
-});
-
-function logout(){
-
-  // Eliminar sesión
-  localStorage.removeItem("isLogged");
-  localStorage.removeItem("userRole");
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("cart"); // opcional
-
-  // Redirigir
-  window.location.replace("login.html");
-}
-
-/* INIT */
-renderProducts();
-renderCart();
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
