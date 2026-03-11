@@ -228,18 +228,14 @@ renderCart();
 /* CANCELAR CARRITO */
 
 function clearCart(){
-
-if(confirm("¿Deseas cancelar el carrito?")){
-
-cart=[];
-
-saveCart();
-
-renderCart();
-
+  if(confirm("¿Deseas cancelar el carrito?")){
+    cart = [];
+    saveCart();
+    renderCart();
+    toggleCart(); // 🔹 Esto cierra el panel al cancelar
+  }
 }
 
-}
 
 
 /* GUARDAR */
@@ -279,3 +275,10 @@ function goToCheckout(){
   window.location.href="caja-panel.html";
 
 }
+document.getElementById('btn-lupa').addEventListener('click', function() {
+  const barra = document.getElementById('barra-busqueda');
+  barra.classList.toggle('activa');
+  if (barra.classList.contains('activa')) {
+    barra.focus();
+  }
+});   
